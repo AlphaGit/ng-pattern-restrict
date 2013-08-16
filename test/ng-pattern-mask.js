@@ -107,11 +107,10 @@ describe('ngPatternMask', function() {
 		});
 	});
 
-	describe("section", function() {
-		it("test", function() {
+	describe("initialization", function() {
+		it("should be invoked when present", function() {
 			var element = compileElement(inputHtml);
-			triggerEvent(element, 'keydown', { which: 65 });
-			expect(1).toBe(1);
-		}); // test
+			
+		}); // should be invoked when present
 	}); // section
 });

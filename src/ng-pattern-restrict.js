@@ -1,16 +1,16 @@
-angular.module('ngPatternMask', [])
-	.value('ngPatternMaskConfig', {
+angular.module('ngPatternRestrict', [])
+	.value('ngPatternRestrictConfig', {
 		//TODO
 	})
-	.directive('ngPatternMask', ['ngPatternMaskConfig', function(patternMaskConfig) {
+	.directive('ngPatternRestrict', ['ngPatternRestrictConfig', function(patternRestrictConfig) {
 		return {
 			priority: 100,
 			require: 'ngModel',
 			restrict: 'A',
-			compile: function uiPatternMaskCompile() {
-				var options = patternMaskConfig;
+			compile: function uiPatternRestrictCompile() {
+				var options = patternRestrictConfig;
 
-				return function ngPatternMaskLinking(scope, iElement, iAttrs, controller) {
+				return function ngPatternRestrictLinking(scope, iElement, iAttrs, controller) {
 					var originalPattern = iAttrs.pattern;
 					var eventsBound = false;
 					var regex; // validation regex object
@@ -21,8 +21,8 @@ angular.module('ngPatternMask', [])
 					function initialize() {
 						originalPattern = iAttrs.pattern;
 						
-						//TEST should default to ngPatternMask, but if not present should check for pattern
-						var entryRegex = !!ngPatternMask ? ngPatternMask : originalPattern;
+						//TEST should default to ngPatternRestrict, but if not present should check for pattern
+						var entryRegex = !!ngPatternRestrict ? ngPatternRestrict : originalPattern;
 						tryParseRegex(entryRegex);
 
 						bindListeners();
@@ -57,7 +57,7 @@ angular.module('ngPatternMask', [])
 							regex = new RegExp(regexString);
 						} catch (e) {
 							//TEST should not initialize with invalid regex strings
-							throw "Invalid RegEx string parsed for ngPatternMask: " + regexString;
+							throw "Invalid RegEx string parsed for ngPatternRestrict: " + regexString;
 						}
 					};
 
@@ -65,12 +65,16 @@ angular.module('ngPatternMask', [])
 					// event handlers
 					function genericEventHandler(evt) {
 						var newValue = iElement.val();
-						if (!regex.test(newValue))
+						if (regex.test(newValue)) {
+							oldValue = newValue;
+						} else {
+							iElement.val(oldValue);
 							evt.preventDefault();
+						}
 					};
 
-					//TEST should update itself based on changes to the ngPatternMask attribute
-					iAttrs.$observe("ngPatternMask", initialize);
+					//TEST should update itself based on changes to the ngPatternRestrict attribute
+					iAttrs.$observe("ngPatternRestrict", initialize);
 					//TEST should update itself based on changes to the pattern attribute
 					iAttrs.$observe("pattern", initialize);
 				};

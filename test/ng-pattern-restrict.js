@@ -1,6 +1,6 @@
-describe('ngPatternMask', function() {
-	var formHtml = "<form name='test'><input name='input' ng-model='x' ng-pattern-mask='{{patternMask}}'></form>";
-	var inputHtml = "<input name='input' ng-model='x' ng-pattern-mask='{{patternMask}}'>";
+describe('ngPatternRestrict', function() {
+	var formHtml = "<form name='test'><input name='input' ng-model='x' ng-pattern-restrict='{{patternRestrict}}'></form>";
+	var inputHtml = "<input name='input' ng-model='x' ng-pattern-restrict='{{patternRestrict}}'>";
 
 	// call example: triggerEvent(input, 'keypress', { which: 13 });
 	var triggerEvent = function(element, eventName, eventData) {
@@ -9,10 +9,10 @@ describe('ngPatternMask', function() {
 		$(element).trigger(e);
 	};
 
-	beforeEach(module('ngPatternMask'));
-	beforeEach(inject(function ($rootScope, $compile, ngPatternMaskConfig) {
+	beforeEach(module('ngPatternRestrict'));
+	beforeEach(inject(function ($rootScope, $compile, ngPatternRestrictConfig) {
 		scope = $rootScope;
-		config = ngPatternMaskConfig;
+		config = ngPatternRestrictConfig;
 		compileElement = function(html) {
 			return $compile(html)(scope);
 		};

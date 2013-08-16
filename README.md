@@ -1,4 +1,4 @@
-ng-pattern-mask
-===============
+ng-pattern-restrict
+===================
 
-Allowing certain inputs (like masks) based on a regex pattern
+Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.

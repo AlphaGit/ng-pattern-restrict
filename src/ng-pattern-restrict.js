@@ -1,31 +1,49 @@
 angular.module('ngPatternRestrict', [])
 	.value('ngPatternRestrictConfig', {
-		//TODO
+		showDebugInfo: true,
 	})
 	.directive('ngPatternRestrict', ['ngPatternRestrictConfig', function(patternRestrictConfig) {
+		function showDebugInfo(message) {
+			if (patternRestrictConfig.showDebugInfo) {
+				console.log("[ngPatternRestrict] " + message);
+			}
+		};
+
 		return {
-			priority: 100,
-			require: 'ngModel',
 			restrict: 'A',
 			compile: function uiPatternRestrictCompile() {
 				var options = patternRestrictConfig;
+				showDebugInfo("Loaded");
 
 				return function ngPatternRestrictLinking(scope, iElement, iAttrs, controller) {
-					var originalPattern = iAttrs.pattern;
-					var eventsBound = false;
+					var originalPattern;
+					var eventsBound = false; // have we bound our events yet?
 					var regex; // validation regex object
 					var oldValue; // keeping track of the previous value of the element
+					var initialized = false; // have we initialized our directive yet?
+					var caretPosition; // keeping track of where the caret is at to avoid jumpiness
 
 					//-------------------------------------------------------------------
 					// initialization
 					function initialize() {
+						if (initialized) return;
+						showDebugInfo("Initializing");
+
 						originalPattern = iAttrs.pattern;
+						showDebugInfo("Original pattern: " + originalPattern);
 						
 						//TEST should default to ngPatternRestrict, but if not present should check for pattern
-						var entryRegex = !!ngPatternRestrict ? ngPatternRestrict : originalPattern;
+						var entryRegex = !!iAttrs.ngPatternRestrict ? iAttrs.ngPatternRestrict : originalPattern;
+						showDebugInfo("RegEx to use: " + entryRegex);
 						tryParseRegex(entryRegex);
 
+						oldValue = iElement.val();
+						if (!oldValue) oldValue = "";
+						showDebugInfo("Original value: " + oldValue);
+
 						bindListeners();
+
+						initialized = true;
 					};
 
 					function uninitialize() {
@@ -38,14 +56,22 @@ angular.module('ngPatternRestrict', [])
 						if (eventsBound) return;
 
 			            iElement.bind('input keyup click', genericEventHandler);
+			            showDebugInfo("Bound events: input, keyup, click");
 					};
 
 					function unbindListeners() {
 						if (!eventsBound) return;
 
 			            iElement.unbind('input', genericEventHandler);
+						//input: HTML5 spec, changes in content
+
 			            iElement.unbind('keyup', genericEventHandler);
+			            //keyup: DOM L3 spec, key released (possibly changing content)
+
 			            iElement.unbind('click', genericEventHandler);
+			            //click: DOM L3 spec, mouse clicked and released (possibly changing content)
+
+			            showDebugInfo("Unbound events: input, keyup, click");
 
 			            eventsBound = false;
 					};
@@ -64,14 +90,52 @@ angular.module('ngPatternRestrict', [])
 					//-------------------------------------------------------------------
 					// event handlers
 					function genericEventHandler(evt) {
+						showDebugInfo("Reacting to event: " + evt.type);
 						var newValue = iElement.val();
 						if (regex.test(newValue)) {
+							showDebugInfo("New value passed validation against " + regex + ": '" + newValue + "'");
 							oldValue = newValue;
+							caretPosition = getCaretPosition();
 						} else {
+							showDebugInfo("New value did NOT pass validation against " + regex + ": '" + newValue + "', reverting back to: '" + oldValue + "'");
 							iElement.val(oldValue);
 							evt.preventDefault();
+							setCaretPosition(caretPosition);
 						}
 					};
+
+					//-------------------------------------------------------------------
+					// caret position
+
+					// logic from http://stackoverflow.com/a/9370239/147507
+					function getCaretPosition() {
+						// TEST
+
+						var input = iElement[0]; // we need to go under jqlite
+						
+						// IE support
+						if (document.selection) {
+							var range = document.selection.createRange();
+							range.moveStart('character', -iElement.val().length);
+							return range.text.length;
+						} else {
+							return input.selectionStart;
+						}
+					}
+
+					// logic from http://stackoverflow.com/q/5755826/147507
+					function setCaretPosition(position) {
+						var input = iElement[0]; // we need to go under jqlite
+						if (input.createTextRange) {
+					        var textRange = input.createTextRange();
+					        textRange.collapse(true);
+					        textRange.moveEnd(pos);
+					        textRange.moveStart(pos);
+					        textRange.select();	
+    					} else {
+							input.setSelectionRange(position, position);
+						}
+					}
 
 					//TEST should update itself based on changes to the ngPatternRestrict attribute
 					iAttrs.$observe("ngPatternRestrict", initialize);

@@ -5,8 +5,8 @@ Allowing certain inputs based on a regex pattern, preventing the user from input
 
 ## Usage:
 
-    <input type="text" pattern="/[0-9]+/" ng-pattern-restrict />
+    <input type="text" pattern="[0-9]+" ng-pattern-restrict />
 
 Should be the same as
 
-    <input type="text" ng-pattern-restrict="/[0-9]+/" pattern="/[0-9]+/" />
+    <input type="text" ng-pattern-restrict="[0-9]+" pattern="[0-9]+" />

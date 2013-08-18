@@ -1,5 +1,4 @@
 describe('ngPatternRestrict', function() {
-	var formHtml = "<form name='test'><input name='input' ng-model='x' ng-pattern-restrict='{{patternRestrict}}'></form>";
 	var inputHtml = "<input name='input' ng-model='x' ng-pattern-restrict='{{patternRestrict}}'>";
 
 	// call example: triggerEvent(input, 'keypress', { which: 13 });
@@ -16,15 +15,15 @@ describe('ngPatternRestrict', function() {
 		compileElement = function(html) {
 			return $compile(html)(scope);
 		};
+		setPattern = function(pattern) {
+			scope.$apply(function() {
+				scope.patternRestrict = pattern;
+			});
+		};
 	}));
 
 	describe("Meta-tests", function() {
 		describe("compileElement", function() {
-			it("compileElement with form data should return a form", function() {
-				var form = compileElement(formHtml);
-				expect(form[0].nodeName.toLowerCase()).toBe("form");
-			});
-
 			it("compileElement with input data should return an input", function() {
 				var input = compileElement(inputHtml);
 				expect(input[0].nodeName.toLowerCase()).toBe("input");
@@ -104,13 +103,67 @@ describe('ngPatternRestrict', function() {
 				expect(receivedValue).toBe(newValue);
 				expect(receivedValue).not.toBe(oldValue);
 			});
+		}); // triggerEvent
+
+		describe("setPattern", function() {
+			it("should change the pattern on the scope for the test", function() {
+				expect(scope.patternRestrict).toBeUndefined();
+				var newPattern = "[0-9]+";
+				setPattern(newPattern);
+				expect(scope.patternRestrict).toBe(newPattern);
+			});
+
+			it("should bind the change into the input tests", function() {
+				var pattern = "[0-9]+";
+				var $input = $(compileElement(inputHtml));
+				scope.$digest();
+				expect($input).not.toBeUndefined();
+				expect($input.attr("ng-pattern-restrict")).toBeFalsy();
+				setPattern(pattern);
+				expect($input.attr("ng-pattern-restrict")).toBe(pattern);
+			});
 		});
 	});
 
-	describe("initialization", function() {
-		it("should be invoked when present", function() {
-			var element = compileElement(inputHtml);
-			
-		}); // should be invoked when present
+	describe("Input restriction", function() {
+		it("should allow event 'input' if the input validates", function() {
+			var input = compileElement(inputHtml);
+			var $input = $(input);
+			setPattern("[0-9]+");
+
+			$input.val("0");
+			triggerEvent(input, 'input'); //TODO: why won't jquery raise this event?
+			expect($input.val()).toBe("0");
+		});
+
+		it("should not allow event 'input' if the input does not validate", function() {
+			var input = compileElement(inputHtml);
+			var $input = $(input);
+			setPattern("[0-9]+");
+
+			$input.val("A");
+			triggerEvent(input, 'input');  //TODO: why won't jquery raise this event?
+			expect($input.val()).toBe("");
+		});
+
+		it("should allow event 'keypress' if the input validates", function() {
+			var input = compileElement(inputHtml);
+			var $input = $(input);
+			setPattern("[0-9]+");
+
+			$input.val("0");
+			triggerEvent(input, 'keypress', { which: 48 }); // "0"
+			expect($input.val()).toBe("0");
+		});
+
+		it("should not allow event 'keypress' if the input does not validate", function() {
+			var input = compileElement(inputHtml);
+			var $input = $(input);
+			setPattern("[0-9]+");
+
+			$input.val("A");
+			triggerEvent(input, 'keypress', { which: 65 }); // "A"
+			expect($input.val()).toBe("");
+		});
 	}); // section
 });

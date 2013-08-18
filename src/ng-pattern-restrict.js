@@ -29,13 +29,7 @@ angular.module('ngPatternRestrict', [])
 						if (initialized) return;
 						showDebugInfo("Initializing");
 
-						originalPattern = iAttrs.pattern;
-						showDebugInfo("Original pattern: " + originalPattern);
-						
-						//TEST should default to ngPatternRestrict, but if not present should check for pattern
-						var entryRegex = !!iAttrs.ngPatternRestrict ? iAttrs.ngPatternRestrict : originalPattern;
-						showDebugInfo("RegEx to use: " + entryRegex);
-						tryParseRegex(entryRegex);
+						readPattern();
 
 						oldValue = iElement.val();
 						if (!oldValue) oldValue = "";
@@ -44,6 +38,16 @@ angular.module('ngPatternRestrict', [])
 						bindListeners();
 
 						initialized = true;
+					};
+
+					function readPattern() {
+						originalPattern = iAttrs.pattern;
+						showDebugInfo("Original pattern: " + originalPattern);
+						
+						//TEST should default to ngPatternRestrict, but if not present should check for pattern
+						var entryRegex = !!iAttrs.ngPatternRestrict ? iAttrs.ngPatternRestrict : originalPattern;
+						showDebugInfo("RegEx to use: " + entryRegex);
+						tryParseRegex(entryRegex);
 					};
 
 					function uninitialize() {
@@ -97,6 +101,7 @@ angular.module('ngPatternRestrict', [])
 							oldValue = newValue;
 							caretPosition = getCaretPosition();
 						} else {
+							debugger;
 							showDebugInfo("New value did NOT pass validation against " + regex + ": '" + newValue + "', reverting back to: '" + oldValue + "'");
 							iElement.val(oldValue);
 							evt.preventDefault();
@@ -112,7 +117,7 @@ angular.module('ngPatternRestrict', [])
 						// TEST
 
 						var input = iElement[0]; // we need to go under jqlite
-						
+
 						// IE support
 						if (document.selection) {
 							var range = document.selection.createRange();
@@ -138,9 +143,11 @@ angular.module('ngPatternRestrict', [])
 					}
 
 					//TEST should update itself based on changes to the ngPatternRestrict attribute
-					iAttrs.$observe("ngPatternRestrict", initialize);
+					iAttrs.$observe("ngPatternRestrict", readPattern);
 					//TEST should update itself based on changes to the pattern attribute
-					iAttrs.$observe("pattern", initialize);
+					iAttrs.$observe("pattern", readPattern);
+
+					scope.$on("$destroy", uninitialize);
 				};
 			}
 		};

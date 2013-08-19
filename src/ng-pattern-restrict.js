@@ -108,7 +108,8 @@ angular.module('ngPatternRestrict', [])
 							showDebugInfo("New value did NOT pass validation against " + regex + ": '" + newValue + "', reverting back to: '" + oldValue + "'");
 							iElement.val(oldValue);
 							evt.preventDefault();
-							setCaretPosition(caretPosition);
+							if (!angular.isUndefined(caretPosition))
+								setCaretPosition(caretPosition);
 						}
 					};
 
@@ -137,8 +138,8 @@ angular.module('ngPatternRestrict', [])
 						if (input.createTextRange) {
 					        var textRange = input.createTextRange();
 					        textRange.collapse(true);
-					        textRange.moveEnd(pos);
-					        textRange.moveStart(pos);
+					        textRange.moveEnd('character', position);
+					        textRange.moveStart('character', position);
 					        textRange.select();	
     					} else {
 							input.setSelectionRange(position, position);

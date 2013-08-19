@@ -51,6 +51,7 @@ angular.module('ngPatternRestrict', [])
 					};
 
 					function uninitialize() {
+						showDebugInfo("Uninitializing");
 						unbindListeners();
 					};
 
@@ -59,7 +60,10 @@ angular.module('ngPatternRestrict', [])
 					function bindListeners() {
 						if (eventsBound) return;
 
-			            iElement.bind('input keyup click', genericEventHandler);
+			            iElement.bind('input', genericEventHandler);
+			            iElement.bind('keyup', genericEventHandler);
+			            iElement.bind('click', genericEventHandler);
+
 			            showDebugInfo("Bound events: input, keyup, click");
 					};
 
@@ -101,7 +105,6 @@ angular.module('ngPatternRestrict', [])
 							oldValue = newValue;
 							caretPosition = getCaretPosition();
 						} else {
-							debugger;
 							showDebugInfo("New value did NOT pass validation against " + regex + ": '" + newValue + "', reverting back to: '" + oldValue + "'");
 							iElement.val(oldValue);
 							evt.preventDefault();
@@ -148,6 +151,8 @@ angular.module('ngPatternRestrict', [])
 					iAttrs.$observe("pattern", readPattern);
 
 					scope.$on("$destroy", uninitialize);
+
+					initialize();
 				};
 			}
 		};

@@ -23,6 +23,10 @@
 
 		<label for="dates">Dates, 99/99/9999, and partial entries:</label>
 		<input name="dates" type="text" ng-pattern-restrict="^\d\d?(\/(\d{1,2}(\/(\d{1,4})?)?)?)?$" />
-		<pre>^\d{0,2}(\/(\d{1,2}(\/(\d{1,4})?)?)?)?$</pre>
+		<pre>^\d\d?(\/(\d{1,2}(\/(\d{1,4})?)?)?)?$</pre>
+
+		<label for="alphanum">Alphanumeric, including empty:</label>
+		<input name="alphanum" type="text" ng-pattern-restrict="^[A-Za-z0-9]*$" />
+		<pre>^[A-Za-z0-9]*$</pre>
 	</body>
 </html>

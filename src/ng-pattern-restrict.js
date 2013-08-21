@@ -99,7 +99,13 @@ angular.module('ngPatternRestrict', [])
 					function genericEventHandler(evt) {
 						showDebugInfo("Reacting to event: " + evt.type);
 						var newValue = iElement.val();
-						if (regex.test(newValue)) {
+
+						//HACK Chrome returns an empty string if you input a non-numeric string into a number type input
+						if (newValue === "" && iElement.attr("type") === "number" && isNaN(iElement[0].valueAsNumber)) {
+							showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to: '" + oldValue + "'");
+							evt.preventDefault();
+							revertToPreviousValue();
+						} else if (regex.test(newValue)) {
 							showDebugInfo("New value passed validation against " + regex + ": '" + newValue + "'");
 							updateCurrentValue(newValue);
 						} else {

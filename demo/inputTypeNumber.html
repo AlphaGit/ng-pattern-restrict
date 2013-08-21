@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Demo for ngPatternRestrict: binding with ngModel</title>
-    <meta name="description" content="Demo for ngPatternRestrict: binding with ngModel">
+    <title>Demo for ngPatternRestrict: input[type=number]</title>
+    <meta name="description" content="Demo for ngPatternRestrict: input[type=number]">
     <meta name="viewport" content="width=device-width">
 
     <!-- Library files on which we depend -->
@@ -22,7 +22,7 @@
 
   <body ng-controller="MainCtrl">
     <label for="numeric">Numeric, optional:</label>
-    <input name="numeric" type="text" ng-pattern-restrict="^\d*$" ng-model="value" />
+    <input name="numeric" type="number" ng-pattern-restrict="^\d*$" ng-model="value" />
     <pre>^\d*$</pre>
     <p>Value bound: {{value}}</p>
   </body>

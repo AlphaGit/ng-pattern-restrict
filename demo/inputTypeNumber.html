@@ -22,7 +22,7 @@
 
   <body ng-controller="MainCtrl">
     <label for="numeric">Numeric, optional:</label>
-    <input name="numeric" type="number" ng-pattern-restrict="^\d*$" ng-model="value" />
+    <input name="numeric" type="number" min="0" ng-pattern-restrict="^\d*$" ng-model="value" />
     <pre>^\d*$</pre>
     <p>Value bound: {{value}}</p>
   </body>

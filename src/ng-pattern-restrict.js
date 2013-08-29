@@ -11,11 +11,12 @@ angular.module('ngPatternRestrict', [])
 
 		return {
 			restrict: 'A',
+			require: "?ngModel",
 			compile: function uiPatternRestrictCompile() {
 				var options = patternRestrictConfig;
 				showDebugInfo("Loaded");
 
-				return function ngPatternRestrictLinking(scope, iElement, iAttrs, controller) {
+				return function ngPatternRestrictLinking(scope, iElement, iAttrs, ngModelController) {
 					var originalPattern;
 					var eventsBound = false; // have we bound our events yet?
 					var regex; // validation regex object
@@ -60,9 +61,7 @@ angular.module('ngPatternRestrict', [])
 					function bindListeners() {
 						if (eventsBound) return;
 
-			            iElement.bind('input', genericEventHandler);
-			            iElement.bind('keyup', genericEventHandler);
-			            iElement.bind('click', genericEventHandler);
+			            iElement.bind('input keyup click', genericEventHandler);
 
 			            showDebugInfo("Bound events: input, keyup, click");
 					};
@@ -100,26 +99,46 @@ angular.module('ngPatternRestrict', [])
 					function genericEventHandler(evt) {
 						showDebugInfo("Reacting to event: " + evt.type);
 						var newValue = iElement.val();
-						if (regex.test(newValue)) {
+
+						//HACK Chrome returns an empty string if you input a non-numeric string into a number type input
+						if (newValue === "" && iElement.attr("type") === "number" && isNaN(iElement[0].valueAsNumber)) {
+							showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to: '" + oldValue + "'");
+							evt.preventDefault();
+							revertToPreviousValue();
+						} else if (regex.test(newValue)) {
 							showDebugInfo("New value passed validation against " + regex + ": '" + newValue + "'");
-							oldValue = newValue;
-							caretPosition = getCaretPosition();
+							updateCurrentValue(newValue);
 						} else {
 							showDebugInfo("New value did NOT pass validation against " + regex + ": '" + newValue + "', reverting back to: '" + oldValue + "'");
-							iElement.val(oldValue);
 							evt.preventDefault();
-							if (!angular.isUndefined(caretPosition))
-								setCaretPosition(caretPosition);
+							revertToPreviousValue();
 						}
+					};
+
+					function revertToPreviousValue() {
+						//TEST bound value should be updated to the previous valid value when the input value does not validate
+						if (ngModelController) {
+							scope.$apply(function() {							
+								ngModelController.$setViewValue(oldValue);
+							});
+						}
+						iElement.val(oldValue);
+
+						if (!angular.isUndefined(caretPosition))
+							setCaretPosition(caretPosition);
+					};
+
+					function updateCurrentValue(newValue) {
+						oldValue = newValue;
+						caretPosition = getCaretPosition();
 					};
 
 					//-------------------------------------------------------------------
 					// caret position
 
 					// logic from http://stackoverflow.com/a/9370239/147507
+					// TEST
 					function getCaretPosition() {
-						// TEST
-
 						var input = iElement[0]; // we need to go under jqlite
 
 						// IE support

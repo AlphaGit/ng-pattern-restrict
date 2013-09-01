@@ -20,6 +20,14 @@
 
         <p class="view"><a href="https://github.com/AlphaGit/ng-pattern-restrict">View the Project on GitHub <small>AlphaGit/ng-pattern-restrict</small></a></p>
 
+        <h2>Releases</h2>
+        <p><strong>Download latest: <a href="https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.1-alpha3">v0.1-alpha3</a></strong> <br /> or <a href="https://github.com/AlphaGit/ng-pattern-restrict/issues?state=open">browse known issues</a></p>
+
+        <h3>Older versions:</h3>
+        <p><a href="https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.1-alpha2">v0.1-alpha2</a></p>
+        <p><a href="https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.1-alpha">v0.1-alpha</a></p>
+
+        <h2>Source code</h2>
         <ul>
           <li><a href="https://github.com/AlphaGit/ng-pattern-restrict/zipball/master">Download <strong>ZIP File</strong></a></li>
           <li><a href="https://github.com/AlphaGit/ng-pattern-restrict/tarball/master">Download <strong>TAR Ball</strong></a></li>
@@ -49,21 +57,15 @@
 
 <p>Make sure that you reference the module in your AngularJS application:</p>
 
-{% highlight javascript %}
-var myApp = angular.module("myApp", ["ngPatternRestrict", ...]);
-{% endhighlight %}
+<pre><code>var myApp = angular.module("myApp", ["ngPatternRestrict", ...]);</code></pre>
 
 <p>Include the directive in a text input that you wish to restrict, with the regex that specifies the restriction to apply.</p>
 
-{% highlight html %}
-&lt;input type="text" ng-pattern-restrict="^[ABC]*$" /&gt;
-{% endhighlight %}
+<pre><code>&lt;input type="text" ng-pattern-restrict="^[ABC]*$" /&gt;</code></pre>
 
 <p>Alternatively, you can omit the regex from the <code>ng-pattern-restrict</code> attribute and this directive will read the regex from the <code>pattern</code> attribute, if present. At least one of those needs to have the regex so that the validation can be made.</p>
 
-{% highlight html %}
-&lt;input type="text" pattern="^[ABC]*$" ng-pattern-restrict /&gt;
-{% endhighlight %}
+<pre><code>&lt;input type="text" pattern="^[ABC]*$" ng-pattern-restrict /&gt;</code></pre>
 
 <h2><a name="issues-suggestions" class="anchor" href="#issues-suggestions"><span class="octicon octicon-link"></span></a>Issues? Suggestions?</h2>
 

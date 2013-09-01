@@ -100,8 +100,10 @@ angular.module('ngPatternRestrict', [])
 						showDebugInfo("Reacting to event: " + evt.type);
 						var newValue = iElement.val();
 
-						//HACK Chrome returns an empty string if you input a non-numeric string into a number type input
-						if (newValue === "" && iElement.attr("type") === "number" && isNaN(iElement[0].valueAsNumber)) {
+						//HACK Chrome returns an empty string as value if user inputs a non-numeric string into a number type input
+						// with this happening, we cannot rely on the value to validate the regex, we need to assume this to be wrong
+						var inputValidity = iElement.prop("validity");
+						if (newValue === "" && iElement.attr("type") === "number" && inputValidity && inputValidity.badInput) {
 							showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to: '" + oldValue + "'");
 							evt.preventDefault();
 							revertToPreviousValue();

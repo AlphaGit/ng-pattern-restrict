@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Ng-pattern-restrict by AlphaGit</title>
+    <title>ngPatternRestrict for AngularJS</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -15,11 +15,10 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Ng-pattern-restrict</h1>
-        <p>Allowing certain inputs based on a regex pattern</p>
+        <h1>ngPatternRestrict</h1>
+        <p>Allowing certain inputs based on a regex pattern for AngularJS</p>
 
         <p class="view"><a href="https://github.com/AlphaGit/ng-pattern-restrict">View the Project on GitHub <small>AlphaGit/ng-pattern-restrict</small></a></p>
-
 
         <ul>
           <li><a href="https://github.com/AlphaGit/ng-pattern-restrict/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -28,37 +27,48 @@
         </ul>
       </header>
       <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <h2>
+<a name="what-is-this-for" class="anchor" href="#what-is-this-for"><span class="octicon octicon-link"></span></a>What is this for?</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>It is possible that at some points you may want to restrict your user from entering certain values in your web application. Specifically, fields that conform to a very strict set of values. If you decide that it is a good idea for you to <strong>restrict</strong> what the user can even type in the input, this is the tool for you.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>This works similar to a masked input, except that no mask is displayed, and the validation is done against a regular expression, which allows you to permit a complex class of values if that's what you need, or to be very specific if that is your necessity.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2><a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work?</h2>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>The logic is quite simple:</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<ol>
+  <li>Initialization: save regex to be used from the <code>ng-pattern-restrict</code> attribute or the <code>pattern</code> attribute.</li>
+  <li>Wait for user input, and reach on <code>input</code> (for any value change), <code>keyup</code> (for keyboard entry) or <code>click</code> (for text drag and drop, contextual copy-paste, etc).</li>
+  <li>If the input matches the regex, save it as the latest valid value. Also save the current user's input caret position on the field.</li>
+  <li>If the input does not match the regex, restore the latest valid value and set the user input caret in the same position as it was. The user experience should be as if nothing was typed or changed.</li>
+</ol>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<h2><a name="how-to-use-it" class="anchor" href="#how-to-use-it"><span class="octicon octicon-link"></span></a>How to use it</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Make sure that you reference the module in your AngularJS application:</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+{% highlight javascript %}
+var myApp = angular.module("myApp", ["ngPatternRestrict", ...]);
+{% endhighlight %}
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Include the directive in a text input that you wish to restrict, with the regex that specifies the restriction to apply.</p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+{% highlight html %}
+&lt;input type="text" ng-pattern-restrict="^[ABC]*$" /&gt;
+{% endhighlight %}
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Alternatively, you can omit the regex from the <code>ng-pattern-restrict</code> attribute and this directive will read the regex from the <code>pattern</code> attribute, if present. At least one of those needs to have the regex so that the validation can be made.</p>
+
+{% highlight html %}
+&lt;input type="text" pattern="^[ABC]*$" ng-pattern-restrict /&gt;
+{% endhighlight %}
+
+<h2><a name="issues-suggestions" class="anchor" href="#issues-suggestions"><span class="octicon octicon-link"></span></a>Issues? Suggestions?</h2>
+
+<p>Feel free to submit pull requests and issues in the <a href="https://github.com/AlphaGit/ng-pattern-restrict" title="ng-pattern-restrict repository">GitHub repository of the project</a>. Even for questions. Everything helps, and having it there to be able to track it will help me and others to maintain good documentation and a good code.
+
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/AlphaGit">AlphaGit</a></p>

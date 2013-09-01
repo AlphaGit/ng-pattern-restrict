@@ -1,0 +1,5 @@
+auto: true
+pygments: true
+server: true
+exclude:
+- params.json

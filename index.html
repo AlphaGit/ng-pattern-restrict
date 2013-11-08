@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en" ng-app="MyApp">
+<head>
+  <meta charset="utf-8">
+  <title>ng-pattern-restrict test</title>
+  <script src="lib/angularjs/angular.js"></script>
+  <script src="src/ng-pattern-restrict.js"></script>
+  <script type="text/javascript">
+  	angular.module("MyApp", ["ngPatternRestrict"]);
+  </script>
+</head>
+<body>
+    <input type="number" ng-model="numeric" ng-pattern-restrict="^[0-9]$" >
+</body>
+</html>

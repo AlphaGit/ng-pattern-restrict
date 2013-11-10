@@ -89,7 +89,6 @@ angular.module('ngPatternRestrict', [])
 						try {
 							regex = new RegExp(regexString);
 						} catch (e) {
-							//TEST should not initialize with invalid regex strings
 							throw "Invalid RegEx string parsed for ngPatternRestrict: " + regexString;
 						}
 					};
@@ -118,7 +117,6 @@ angular.module('ngPatternRestrict', [])
 					};
 
 					function revertToPreviousValue() {
-						//TEST bound value should be updated to the previous valid value when the input value does not validate
 						if (ngModelController) {
 							scope.$apply(function() {							
 								ngModelController.$setViewValue(oldValue);
@@ -139,7 +137,6 @@ angular.module('ngPatternRestrict', [])
 					// caret position
 
 					// logic from http://stackoverflow.com/a/9370239/147507
-					// TEST
 					function getCaretPosition() {
 						var input = iElement[0]; // we need to go under jqlite
 
@@ -167,9 +164,7 @@ angular.module('ngPatternRestrict', [])
 						}
 					}
 
-					//TEST should update itself based on changes to the ngPatternRestrict attribute
 					iAttrs.$observe("ngPatternRestrict", readPattern);
-					//TEST should update itself based on changes to the pattern attribute
 					iAttrs.$observe("pattern", readPattern);
 
 					scope.$on("$destroy", uninitialize);

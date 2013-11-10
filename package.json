@@ -1,8 +1,6 @@
-{
-  devDependencies: {
-    karma: '~0.8'
-  },
-  scripts: {
-     test: 'node karma-server.js& && ./node_modules/.bin/karma start --single-run --browsers PhantomJS karma.e2e.conf.js'
-  }
+"devDependencies": {
+  "karma": "~0.8"
+},
+"scripts": {
+   "test": "node karma-server.js& && ./node_modules/.bin/karma start --single-run --browsers PhantomJS karma.e2e.conf.js"
 }

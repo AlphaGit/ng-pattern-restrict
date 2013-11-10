@@ -6,11 +6,15 @@ var sys = require('sys'),
 
 var DEFAULT_PORT = 8000;
 
+// parameters:
+//   - port: number
+//   - logRequests: true/false
 function main(argv) {
+  var logRequests = !!argv[3] && argv[3] !== "false";
   new HttpServer({
     'GET': createServlet(StaticServlet),
     'HEAD': createServlet(StaticServlet)
-  }).start(Number(argv[2]) || DEFAULT_PORT);
+  }).start(Number(argv[2]) || DEFAULT_PORT, logRequests);
 }
 
 function escapeHtml(value) {
@@ -36,9 +40,10 @@ function HttpServer(handlers) {
   this.server = http.createServer(this.handleRequest_.bind(this));
 }
 
-HttpServer.prototype.start = function(port) {
+HttpServer.prototype.start = function(port, logRequests) {
   this.port = port;
   this.server.listen(port);
+  this.logRequests = logRequests;
   sys.puts('Http Server running at http://127.0.0.1:' + port + '/');
 };
 
@@ -53,7 +58,7 @@ HttpServer.prototype.handleRequest_ = function(req, res) {
   if (req.headers['user-agent']) {
     logEntry += ' ' + req.headers['user-agent'];
   }
-  sys.puts(logEntry);
+  if (this.logRequests) sys.puts(logEntry);
   req.url = this.parseUrl_(req.url);
   var handler = this.handlers[req.method];
   if (!handler) {

@@ -27,7 +27,9 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      'lib/angularjs/angular-scenario.js'
+      'lib/angularjs/angular-scenario.js',
+      'test/karma-server.js',
+      'test/karma.e2e.conf.js',
     ],
 
 

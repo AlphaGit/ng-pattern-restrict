@@ -1,6 +1,12 @@
 {
+  "dependencies": {},
   "devDependencies": {
     "karma": "~0.8"
+  },
+  "name": "ng-pattern-restrict",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/AlphaGit/ng-pattern-restrict.git"
   },
   "scripts": {
      "test": "grunt test"

@@ -1,7 +1,8 @@
 {
   "dependencies": {},
   "devDependencies": {
-    "karma": "~0.8"
+      "grunt": "=0.4.1",
+      "karma": "~0.8"
   },
   "name": "ng-pattern-restrict",
   "repository": {

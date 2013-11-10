@@ -3,6 +3,6 @@
     "karma": "~0.8"
   },
   "scripts": {
-     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS karma.e2e.conf.js"
+     "test": "grunt test"
   }
 }

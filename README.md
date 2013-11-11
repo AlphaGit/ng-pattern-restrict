@@ -1,5 +1,4 @@
-ng-pattern-restrict
-===================
+# ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.png)](https://travis-ci.org/AlphaGit/ng-pattern-restrict)
 
 Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.
 

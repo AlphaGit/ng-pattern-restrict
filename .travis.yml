@@ -2,5 +2,7 @@ language: node_js
 node_js:
   - 0.8
 before_script:
-  - npm install -g grunt-cli karma
-  - node karma-server.js
+  - npm install -g grunt-cli karma forever
+  - forever start karma-server.js
+after_script:
+  - forever stop karma-server.js

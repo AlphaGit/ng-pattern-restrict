@@ -19,7 +19,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "demo",
     "lib"
-  ]
+  ],
+  "dependencies": {
+    "angular": "^1.3.0"
+  }
 }

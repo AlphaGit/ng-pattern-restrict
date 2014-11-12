@@ -1,6 +1,6 @@
 angular.module('ngPatternRestrict', [])
 	.value('ngPatternRestrictConfig', {
-		showDebugInfo: true,
+		showDebugInfo: false,
 	})
 	.directive('ngPatternRestrict', ['ngPatternRestrictConfig', function(patternRestrictConfig) {
 		function showDebugInfo(message) {

@@ -3,7 +3,6 @@
 
 module.exports = function(config) {
   config.set({
-
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
@@ -13,7 +12,7 @@ module.exports = function(config) {
     urlRoot: '/__karma/',
 
     proxies: {
-        '/': 'http://localhost:8000/'
+      '/': 'http://localhost:8000/'
     },
 
     // list of files / patterns to load in the browser
@@ -53,11 +52,14 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS', 'Firefox'].concat(process.env.TRAVIS ? ['Chrome_Travis_CI'] : ['Chrome', 'IE']),
 
     plugins: [
-        'karma-phantomjs-launcher',
-        'karma-ng-scenario'
+      'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
+      'karma-firefox-launcher',
+      'karma-ie-launcher',
+      'karma-ng-scenario'
     ],
 
     // If browser does not capture in given timeout [ms], kill it
@@ -65,6 +67,13 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: true
+    singleRun: true,
+
+    customLaunchers: {
+      Chrome_Travis_CI: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    }
   });
 };

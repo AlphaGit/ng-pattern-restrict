@@ -6,7 +6,10 @@
     "grunt-karma": "^0.8.0",
     "karma-ng-scenario": "^0.1.0",
     "karma-junit-reporter": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.1.4"
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-ie-launcher": "^0.1.5"
   },
   "name": "ng-pattern-restrict",
   "repository": {

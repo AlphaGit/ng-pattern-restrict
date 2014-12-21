@@ -10,8 +10,7 @@ module.exports = function(grunt) {
                 configFile: 'karma.e2e.conf.js'
             },
             continuous: {
-                singleRun: true,
-                browsers: ['PhantomJS']
+                singleRun: true
             }
         },
     });

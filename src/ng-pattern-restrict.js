@@ -44,7 +44,7 @@ angular.module('ngPatternRestrict', [])
 					function readPattern() {
 						originalPattern = iAttrs.pattern;
 						showDebugInfo("Original pattern: " + originalPattern);
-						
+
 						//TEST should default to ngPatternRestrict, but if not present should check for pattern
 						var entryRegex = !!iAttrs.ngPatternRestrict ? iAttrs.ngPatternRestrict : originalPattern;
 						showDebugInfo("RegEx to use: " + entryRegex);
@@ -102,10 +102,23 @@ angular.module('ngPatternRestrict', [])
 						//HACK Chrome returns an empty string as value if user inputs a non-numeric string into a number type input
 						// with this happening, we cannot rely on the value to validate the regex, we need to assume this to be wrong
 						var inputValidity = iElement.prop("validity");
-						if (newValue === "" && iElement.attr("type") === "number" && inputValidity && inputValidity.badInput) {
-							showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to: '" + oldValue + "'");
-							evt.preventDefault();
-							revertToPreviousValue();
+						if (newValue === "" && iElement.attr("type") === "number") {
+							if (inputValidity && inputValidity.badInput) {
+								showDebugInfo("Invalid input. Reverting back to: '" + oldValue + "'");
+								evt.preventDefault();
+								revertToPreviousValue();
+							} else {
+								// HACK: browsers like Opera 12 won't give us a wrong validity status although the input is invalid
+								// we can select the whole text and check the selection size
+								iElement[0].focus();
+								document.execCommand("selectAll");
+								if (window.getSelection().focusNode.selectionStart !== 0) {
+									// we have characters but value is empty -- invalid input
+									showDebugInfo("Invalid input. Reverting back to: '" + oldValue + "'");
+									evt.preventDefault();
+									revertToPreviousValue();
+								}
+							}
 						} else if (regex.test(newValue)) {
 							showDebugInfo("New value passed validation against " + regex + ": '" + newValue + "'");
 							updateCurrentValue(newValue);
@@ -118,7 +131,7 @@ angular.module('ngPatternRestrict', [])
 
 					function revertToPreviousValue() {
 						if (ngModelController) {
-							scope.$apply(function() {							
+							scope.$apply(function() {
 								ngModelController.$setViewValue(oldValue);
 							});
 						}
@@ -154,12 +167,12 @@ angular.module('ngPatternRestrict', [])
 					function setCaretPosition(position) {
 						var input = iElement[0]; // we need to go under jqlite
 						if (input.createTextRange) {
-					        var textRange = input.createTextRange();
-					        textRange.collapse(true);
-					        textRange.moveEnd('character', position);
-					        textRange.moveStart('character', position);
-					        textRange.select();	
-    					} else {
+									var textRange = input.createTextRange();
+									textRange.collapse(true);
+									textRange.moveEnd('character', position);
+									textRange.moveStart('character', position);
+									textRange.select();
+							} else {
 							input.setSelectionRange(position, position);
 						}
 					}

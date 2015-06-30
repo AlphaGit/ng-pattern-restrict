@@ -26,10 +26,10 @@ angular.module('ngPatternRestrict', [])
           var regex, // validation regex object
             oldValue, // keeping track of the previous value of the element
             caretPosition, // keeping track of where the caret is at to avoid jumpiness
-            // housekeeping
+          // housekeeping
             initialized = false, // have we initialized our directive yet?
             eventsBound = false, // have we bound our events yet?
-            // functions
+          // functions
             getCaretPosition, // function to get the caret position, set in detectGetCaretPositionMethods
             setCaretPosition; // function to set the caret position, set in detectSetCaretPositionMethods
 
@@ -82,7 +82,7 @@ angular.module('ngPatternRestrict', [])
             iElement[0].setSelectionRange(position, position);
           }
 
-          function setCaretPositoinWithCreateTextRange(position) {
+          function setCaretPositionWithCreateTextRange(position) {
             var textRange = iElement[0].createTextRange();
             textRange.collapse(true);
             textRange.moveEnd('character', position);
@@ -103,22 +103,6 @@ angular.module('ngPatternRestrict', [])
             while (position--) {
               s.modify('move', 'forward', 'character');
             }
-          }
-
-          // HACK: Opera 12 won't give us a wrong validity status although the input is invalid
-          // we can select the whole text and check the selection size
-          // Congratulations to IE 11 for doing the same but not returning the selection.
-          function getValueLengthThroughSelection(input) {
-            // only do this on opera, since it'll mess up the caret position
-            // and break Firefox functionality
-            if (!/Opera/i.test(navigator.userAgent)) {
-              return 0;
-            }
-
-            input.focus();
-            document.execCommand("selectAll");
-            var focusNode = window.getSelection().focusNode;
-            return (focusNode || {}).selectionStart || 0;
           }
 
           //-------------------------------------------------------------------
@@ -152,10 +136,6 @@ angular.module('ngPatternRestrict', [])
               inputValidity = iElement.prop("validity");
             if (newValue === "" && iElement.attr("type") !== "text" && inputValidity && inputValidity.badInput) {
               showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to:", oldValue);
-              evt.preventDefault();
-              revertToPreviousValue();
-            } else if (newValue === "" && getValueLengthThroughSelection(iElement[0]) !== 0) {
-              showDebugInfo("Invalid input. Reverting back to:", oldValue);
               evt.preventDefault();
               revertToPreviousValue();
             } else if (regex.test(newValue)) {
@@ -217,19 +197,11 @@ angular.module('ngPatternRestrict', [])
             tryParseRegex(entryRegex);
           }
 
-          function notThrows(testFn, shouldReturnTruthy) {
-          	try {
-          		return testFn() || !shouldReturnTruthy;
-          	} catch (e) {
-          		return false;
-          	}
-          }
-
           function detectGetCaretPositionMethods() {
             var input = iElement[0];
-            if (notThrows(function () { return input.selectionStart; })) {
+            if (typeof(input.selectionStart) === 'function') {
               getCaretPosition = getCaretPositionWithInputSelectionStart;
-            } else if (notThrows(function () { return document.selection; }, true)) {
+            } else if (typeof(document.selection) === 'function') {
               getCaretPosition = getCaretPositionWithDocumentSelection;
             } else {
               getCaretPosition = getCaretPositionWithWindowSelection;
@@ -238,10 +210,10 @@ angular.module('ngPatternRestrict', [])
 
           function detectSetCaretPositionMethods() {
             var input = iElement[0];
-            if (notThrows(function () { input.setSelectionRange(0, 0); })) {
+            if (typeof(input.setSelectionRange) === 'function') {
               setCaretPosition = setCaretPositionWithSetSelectionRange;
-            } else if (notThrows(function () { return input.createTextRange(); })) {
-              setCaretPosition = setCaretPositoinWithCreateTextRange;
+            } else if (typeof(input.createTextRange) === 'function') {
+              setCaretPosition = setCaretPositionWithCreateTextRange;
             } else {
               setCaretPosition = setCaretPositionWithWindowSelection;
             }

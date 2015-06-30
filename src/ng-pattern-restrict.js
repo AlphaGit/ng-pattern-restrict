@@ -26,10 +26,10 @@ angular.module('ngPatternRestrict', [])
           var regex, // validation regex object
             oldValue, // keeping track of the previous value of the element
             caretPosition, // keeping track of where the caret is at to avoid jumpiness
-            // housekeeping
+          // housekeeping
             initialized = false, // have we initialized our directive yet?
             eventsBound = false, // have we bound our events yet?
-            // functions
+          // functions
             getCaretPosition, // function to get the caret position, set in detectGetCaretPositionMethods
             setCaretPosition; // function to set the caret position, set in detectSetCaretPositionMethods
 
@@ -82,7 +82,7 @@ angular.module('ngPatternRestrict', [])
             iElement[0].setSelectionRange(position, position);
           }
 
-          function setCaretPositoinWithCreateTextRange(position) {
+          function setCaretPositionWithCreateTextRange(position) {
             var textRange = iElement[0].createTextRange();
             textRange.collapse(true);
             textRange.moveEnd('character', position);
@@ -217,19 +217,11 @@ angular.module('ngPatternRestrict', [])
             tryParseRegex(entryRegex);
           }
 
-          function notThrows(testFn, shouldReturnTruthy) {
-          	try {
-          		return testFn() || !shouldReturnTruthy;
-          	} catch (e) {
-          		return false;
-          	}
-          }
-
           function detectGetCaretPositionMethods() {
             var input = iElement[0];
-            if (notThrows(function () { return input.selectionStart; })) {
+            if (typeof(input.selectionStart) === 'function') {
               getCaretPosition = getCaretPositionWithInputSelectionStart;
-            } else if (notThrows(function () { return document.selection; }, true)) {
+            } else if (typeof(document.selection) === 'function') {
               getCaretPosition = getCaretPositionWithDocumentSelection;
             } else {
               getCaretPosition = getCaretPositionWithWindowSelection;
@@ -238,10 +230,10 @@ angular.module('ngPatternRestrict', [])
 
           function detectSetCaretPositionMethods() {
             var input = iElement[0];
-            if (notThrows(function () { input.setSelectionRange(0, 0); })) {
+            if (typeof(input.setSelectionRange) === 'function') {
               setCaretPosition = setCaretPositionWithSetSelectionRange;
-            } else if (notThrows(function () { return input.createTextRange(); })) {
-              setCaretPosition = setCaretPositoinWithCreateTextRange;
+            } else if (typeof(input.createTextRange) === 'function') {
+              setCaretPosition = setCaretPositionWithCreateTextRange;
             } else {
               setCaretPosition = setCaretPositionWithWindowSelection;
             }

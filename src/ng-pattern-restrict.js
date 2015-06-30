@@ -105,6 +105,22 @@ angular.module('ngPatternRestrict', [])
             }
           }
 
+          // HACK: Opera 12 won't give us a wrong validity status although the input is invalid
+          // we can select the whole text and check the selection size
+          // Congratulations to IE 11 for doing the same but not returning the selection.
+          function getValueLengthThroughSelection(input) {
+            // only do this on opera, since it'll mess up the caret position
+            // and break Firefox functionality
+            if (!/Opera/i.test(navigator.userAgent)) {
+              return 0;
+            }
+
+            input.focus();
+            document.execCommand("selectAll");
+            var focusNode = window.getSelection().focusNode;
+            return (focusNode || {}).selectionStart || 0;
+          }
+
           //-------------------------------------------------------------------
           // event handlers
           function revertToPreviousValue() {
@@ -136,6 +152,10 @@ angular.module('ngPatternRestrict', [])
               inputValidity = iElement.prop("validity");
             if (newValue === "" && iElement.attr("type") !== "text" && inputValidity && inputValidity.badInput) {
               showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to:", oldValue);
+              evt.preventDefault();
+              revertToPreviousValue();
+            } else if (newValue === "" && getValueLengthThroughSelection(iElement[0]) !== 0) {
+              showDebugInfo("Invalid input. Reverting back to:", oldValue);
               evt.preventDefault();
               revertToPreviousValue();
             } else if (regex.test(newValue)) {

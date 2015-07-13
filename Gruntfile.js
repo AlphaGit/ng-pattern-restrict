@@ -1,27 +1,50 @@
+'use strict';
+
 module.exports = function(grunt) {
-    'use strict';
-
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-
-        // Runs all unit tests with Karma
-        karma: {
-            options: {
-                configFile: 'karma.e2e.conf.js'
-            },
-            continuous: {
-                singleRun: true
+        connect: {
+            server: {
+                options: {
+                    hostname: 'localhost',
+                    port: 9001,
+                    base: '.'
+                }
             }
         },
+        protractor_webdriver: {
+            webDriverStart: {
+                options: {
+                    path: './node_modules/protractor/bin/',
+                    command: 'webdriver-manager start'
+                }
+            },
+        },
+        protractor: {
+            options: {
+                configFile: 'protractor-conf.js',
+                keepAlive: false,
+                noColor: false,
+                args: { }
+            },
+            test: {
+                options: {
+                    configFile: 'protractor-conf.js',
+                    args: { }
+                }
+            },
+            travis: {
+                options: {
+                    configFile: 'protractor-travis-conf.js',
+                    args: { }
+                }
+            }
+        }
     });
 
-    grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-protractor-webdriver');
 
-    grunt.registerTask('test', [
-        'karma'
-    ]);
-
-    grunt.registerTask('default', [
-        'test'
-    ]);
+    grunt.registerTask('test', ['connect', 'protractor_webdriver:webDriverStart', 'protractor:test']);
+    grunt.registerTask('test:travis', ['connect', 'protractor:travis']);
 };

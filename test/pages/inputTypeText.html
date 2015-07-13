@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" ng-app="MyApp">
+<head>
+  <meta charset="utf-8">
+  <title>ng-pattern-restrict text test</title>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/src/ng-pattern-restrict.js"></script>
+  <script type="text/javascript">
+    var myApp = angular.module("MyApp", ["ngPatternRestrict"]);
+    myApp.controller("TestController", function($scope) {
+      $scope.setPattern = function() {
+        $scope.pattern = $scope.patternText;
+      };
+      $scope.setHtmlPattern = function() {
+        $scope.htmlPattern = $scope.htmlPatternText;
+      };
+    });
+  </script>
+  <link rel="stylesheet" type="text/css" href="testStyles.css">
+</head>
+<body ng-controller="TestController" >
+  <input type="text" id="browserInfo" />
+  <input type="text" id="title" />
+
+  <label for="htmlPattern">HTML Pattern:</label>
+  <input type="text" id="htmlPattern" ng-model="htmlPatternText" ng-change="setHtmlPattern()" /><br />
+
+  <label for="patternText">Pattern:</label>
+  <input type="text" id="pattern" ng-model="patternText" ng-change="setPattern()" /><br />
+
+  <label for="textbox">Text:</label>
+  <input type="text" id="textbox" ng-pattern-restrict="{{pattern}}" pattern="{{htmlPattern}}" />
+</body>
+</html>

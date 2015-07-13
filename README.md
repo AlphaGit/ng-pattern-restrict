@@ -1,5 +1,7 @@
 # ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.png)][travisci]
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/AlphaSau.svg)](https://saucelabs.com/u/AlphaSau)
+
 Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.
 
 ## Usage
@@ -18,16 +20,27 @@ Should be the same as
   Following the example, the proper regular expression should be `\d{0,2}`.
 - **Your regex must validate against empty strings if you want users to be able to remove the value from the
   textbox.**
+- **Make sure AngularJS is compatible with your browser.** It goes without saying, but your browser compatibility
+  with AngularJS will make a huge impact on how well this directive can behave. For example, AngularJS 1.3 with
+  IE 8 won't really play well together, and this directive is restricted by those limitations.
 
-## Unit testing
+If you still have problems, please make sure to check the [Compatibility notes][compatibility]. There are several issues that really depend on the browsers.
 
-In order to unit test you need to execute the following steps:
+## E2E testing
 
-    node karma-server.js
+In order to e2e test you need to execute the following steps:
 
-Leave that running on the background, it will open up an HTTP server at port 8000.
+    npm install
+    ./node_modules/protractor/bin/webdriver-manager update
 
-    grunt karma
-    
+    # then, for each time you want to test
+    npm test
+
+That's it. Neat, huh?
+
+Check out the [protractor configuration file][protractor conf] for the set of browsers that you want to test on your system.
+
 [travisci]: https://travis-ci.org/AlphaGit/ng-pattern-restrict
 [ticket15]: https://github.com/AlphaGit/ng-pattern-restrict/issues/15
+[compatibility]: docs/compatibility.md
+[protractor conf]: protractor-conf.js

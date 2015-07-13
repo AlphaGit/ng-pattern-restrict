@@ -1,15 +1,13 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "express": "~4.13.1"
+  },
   "devDependencies": {
-    "grunt": "^0.4.0",
-    "karma": "^0.12.0",
-    "grunt-karma": "^0.8.0",
-    "karma-ng-scenario": "^0.1.0",
-    "karma-junit-reporter": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.1.4",
-    "karma-chrome-launcher": "^0.1.7",
-    "karma-firefox-launcher": "^0.1.4",
-    "karma-ie-launcher": "^0.1.5"
+    "grunt": "~0.4.5",
+    "grunt-contrib-connect": "~0.10.1",
+    "grunt-protractor-runner": "~2.0.0",
+    "protractor": "~2.1.0",
+    "grunt-protractor-webdriver": "~0.2.0"
   },
   "name": "ng-pattern-restrict",
   "repository": {
@@ -17,6 +15,7 @@
     "url": "https://github.com/AlphaGit/ng-pattern-restrict.git"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "test-travis": "grunt test:travis"
   }
 }

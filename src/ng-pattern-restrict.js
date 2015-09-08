@@ -82,7 +82,7 @@ angular.module('ngPatternRestrict', [])
             iElement[0].setSelectionRange(position, position);
           }
 
-          function setCaretPositoinWithCreateTextRange(position) {
+          function setCaretPositionWithCreateTextRange(position) {
             var textRange = iElement[0].createTextRange();
             textRange.collapse(true);
             textRange.moveEnd('character', position);
@@ -227,21 +227,28 @@ angular.module('ngPatternRestrict', [])
 
           function detectGetCaretPositionMethods() {
             var input = iElement[0];
-            if (notThrows(function () { return input.selectionStart; })) {
+
+            // Chrome will throw on input.selectionStart of input type=number
+            // See http://stackoverflow.com/a/21959157/147507
+            if (typeof notThrows(function () { return input.selectionStart; })) {
               getCaretPosition = getCaretPositionWithInputSelectionStart;
-            } else if (notThrows(function () { return document.selection; }, true)) {
-              getCaretPosition = getCaretPositionWithDocumentSelection;
             } else {
-              getCaretPosition = getCaretPositionWithWindowSelection;
+              // IE 9- will use document.selection
+              // TODO support IE 11+ with document.getSelection()
+              if (notThrows(function () { return document.selection; }, true)) {
+                getCaretPosition = getCaretPositionWithDocumentSelection;
+              } else {
+                getCaretPosition = getCaretPositionWithWindowSelection;
+              }
             }
           }
 
           function detectSetCaretPositionMethods() {
             var input = iElement[0];
-            if (notThrows(function () { input.setSelectionRange(0, 0); })) {
+            if (typeof input.setSelectionRange === 'function') {
               setCaretPosition = setCaretPositionWithSetSelectionRange;
-            } else if (notThrows(function () { return input.createTextRange(); })) {
-              setCaretPosition = setCaretPositoinWithCreateTextRange;
+            } else if (typeof input.createTextRange === 'function') {
+              setCaretPosition = setCaretPositionWithCreateTextRange;
             } else {
               setCaretPosition = setCaretPositionWithWindowSelection;
             }

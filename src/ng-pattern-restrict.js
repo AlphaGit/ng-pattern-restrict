@@ -230,7 +230,7 @@ angular.module('ngPatternRestrict', [])
 
             // Chrome will throw on input.selectionStart of input type=number
             // See http://stackoverflow.com/a/21959157/147507
-            if (typeof notThrows(function () { return input.selectionStart; })) {
+            if (notThrows(function () { return input.selectionStart; })) {
               getCaretPosition = getCaretPositionWithInputSelectionStart;
             } else {
               // IE 9- will use document.selection

@@ -1,26 +1,27 @@
 /*jslint browser: true, plusplus: true, indent: 2 */
+
+// This will be removed by uglify, along with the DEBUG code
+if (typeof DEBUG === 'undefined') {
+  DEBUG = true;
+}
+
 // Logic and fallbacks based on the following SO answers:
 // - Getting caret position cross browser: http://stackoverflow.com/a/9370239/147507
 // - Selection API on non input-text fields: http://stackoverflow.com/a/24247942/147507
 // - Set cursor position on input text: http://stackoverflow.com/q/5755826/147507
 angular.module('ngPatternRestrict', [])
-  .value('ngPatternRestrictConfig', {
-    showDebugInfo: false,
-  })
-  .directive('ngPatternRestrict', ['ngPatternRestrictConfig', '$log', function (patternRestrictConfig, $log) {
+  .directive('ngPatternRestrict', ['$log', function ($log) {
     'use strict';
 
     function showDebugInfo() {
-      if (patternRestrictConfig.showDebugInfo) {
-        $log.debug("[ngPatternRestrict] " + Array.prototype.join.call(arguments, ' '));
-      }
+      $log.debug("[ngPatternRestrict] " + Array.prototype.join.call(arguments, ' '));
     }
 
     return {
       restrict: 'A',
       require: "?ngModel",
       compile: function uiPatternRestrictCompile() {
-        showDebugInfo("Loaded");
+        DEBUG && showDebugInfo("Loaded");
 
         return function ngPatternRestrictLinking(scope, iElement, iAttrs, ngModelController) {
           var regex, // validation regex object
@@ -142,7 +143,7 @@ angular.module('ngPatternRestrict', [])
           }
 
           function genericEventHandler(evt) {
-            showDebugInfo("Reacting to event:", evt.type);
+            DEBUG && showDebugInfo("Reacting to event:", evt.type);
 
             //HACK Chrome returns an empty string as value if user inputs a non-numeric string into a number type input
             // and this may happen with other non-text inputs soon enough. As such, if getting the string only gives us an
@@ -151,18 +152,18 @@ angular.module('ngPatternRestrict', [])
             var newValue = iElement.val(),
               inputValidity = iElement.prop("validity");
             if (newValue === "" && iElement.attr("type") !== "text" && inputValidity && inputValidity.badInput) {
-              showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to:", oldValue);
+              DEBUG && showDebugInfo("Value cannot be verified. Should be invalid. Reverting back to:", oldValue);
               evt.preventDefault();
               revertToPreviousValue();
             } else if (newValue === "" && getValueLengthThroughSelection(iElement[0]) !== 0) {
-              showDebugInfo("Invalid input. Reverting back to:", oldValue);
+              DEBUG && showDebugInfo("Invalid input. Reverting back to:", oldValue);
               evt.preventDefault();
               revertToPreviousValue();
             } else if (regex.test(newValue)) {
-              showDebugInfo("New value passed validation against", regex, newValue);
+              DEBUG && showDebugInfo("New value passed validation against", regex, newValue);
               updateCurrentValue(newValue);
             } else {
-              showDebugInfo("New value did NOT pass validation against", regex, newValue, "Reverting back to:", oldValue);
+              DEBUG && showDebugInfo("New value did NOT pass validation against", regex, newValue, "Reverting back to:", oldValue);
               evt.preventDefault();
               revertToPreviousValue();
             }
@@ -187,7 +188,7 @@ angular.module('ngPatternRestrict', [])
 
             iElement.bind('input keyup click', genericEventHandler);
 
-            showDebugInfo("Bound events: input, keyup, click");
+            DEBUG && showDebugInfo("Bound events: input, keyup, click");
           }
 
           function unbindListeners() {
@@ -204,7 +205,7 @@ angular.module('ngPatternRestrict', [])
             iElement.unbind('click', genericEventHandler);
             //click: DOM L3 spec, mouse clicked and released (possibly changing content)
 
-            showDebugInfo("Unbound events: input, keyup, click");
+            DEBUG && showDebugInfo("Unbound events: input, keyup, click");
 
             eventsBound = false;
           }
@@ -213,7 +214,7 @@ angular.module('ngPatternRestrict', [])
           // initialization
           function readPattern() {
             var entryRegex = !!iAttrs.ngPatternRestrict ? iAttrs.ngPatternRestrict : iAttrs.pattern;
-            showDebugInfo("RegEx to use:", entryRegex);
+            DEBUG && showDebugInfo("RegEx to use:", entryRegex);
             tryParseRegex(entryRegex);
           }
 
@@ -258,7 +259,7 @@ angular.module('ngPatternRestrict', [])
             if (initialized) {
               return;
             }
-            showDebugInfo("Initializing");
+            DEBUG && showDebugInfo("Initializing");
 
             readPattern();
 
@@ -266,7 +267,7 @@ angular.module('ngPatternRestrict', [])
             if (!oldValue) {
               oldValue = "";
             }
-            showDebugInfo("Original value:", oldValue);
+            DEBUG && showDebugInfo("Original value:", oldValue);
 
             bindListeners();
 
@@ -277,7 +278,7 @@ angular.module('ngPatternRestrict', [])
           }
 
           function uninitialize() {
-            showDebugInfo("Uninitializing");
+            DEBUG && showDebugInfo("Uninitializing");
             unbindListeners();
           }
 

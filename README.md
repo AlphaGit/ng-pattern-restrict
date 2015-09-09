@@ -1,4 +1,4 @@
-# ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.png)][travisci]
+# ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.svg?branch=master)][travisci]
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/AlphaSau.svg)](https://saucelabs.com/u/AlphaSau)
 

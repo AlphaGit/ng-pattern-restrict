@@ -3,6 +3,7 @@ var configBuilder = require('./protractor-conf-builder');
 var config = configBuilder.getDefaults();
 config.sauceUser = process.env.SAUCE_USERNAME;
 config.sauceKey = process.env.SAUCE_ACCESS_KEY;
+config.baseUrl = 'http://localhost:9001/min';
 config.multiCapabilities = [
     configBuilder.getCapability({ browserName: 'chrome' }),
     configBuilder.getCapability({ browserName: 'firefox' }),

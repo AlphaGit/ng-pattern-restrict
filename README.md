@@ -4,6 +4,14 @@
 
 Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.
 
+## Installation
+
+    bower install ng-pattern-restrict
+
+Alternatively, copy the [ng-pattern-restrict.js][srcfile] (or the minified version
+[ng-pattern-restrict.min.js][srcminfile]) into your project, load it into the browser
+and use it away.
+
 ## Usage
 
     <input type="text" pattern="[0-9]+" ng-pattern-restrict />
@@ -44,3 +52,5 @@ Check out the [protractor configuration file][protractor conf] for the set of br
 [ticket15]: https://github.com/AlphaGit/ng-pattern-restrict/issues/15
 [compatibility]: docs/compatibility.md
 [protractor conf]: protractor-conf.js
+[srcfile]: src/ng-pattern-restrict.js
+[srcminfile]: src/ng-pattern-restrict.min.js

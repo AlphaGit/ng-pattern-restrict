@@ -5,7 +5,12 @@ var fs = require('fs');
 function serveStaticFile(response, filePath) {
     filePath = './' + filePath;
     fs.stat(filePath, function(err, stat) {
-        if (err || !stat.isFile()) return response.end('Cant find file ' + filePath);
+        if (err || !stat.isFile()) 
+        {
+            response.writeHead(404, 'Cant find file ' + filePath);
+            response.end();
+            return;
+        }
 
         fs.createReadStream('./' + filePath).pipe(response);
     });

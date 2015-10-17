@@ -28,8 +28,15 @@ function getConfigurationDefaults() {
 
 function getCapability(options) {
   var capability = extend(defaultsForCapability, options);
-  capability.name = 'ng-pattern-restrict build ' + process.env.TRAVIS_BUILD_NUMBER + ' ' + options.browserName;
-  if (options.version) capability.name += ' ' + options.version;
+
+  var nameParts = [];
+  nameParts.push('ng-pattern-restrict build');
+  nameParts.push(process.env.TRAVIS_BUILD_NUMBER);
+  nameParts.push(options.testExtraDescriptor);
+  nameParts.push(options.browserName);
+  nameParts.push(options.version);
+  
+  capability.name =  nameParts.join(' ').trim();
   return capability;
 }
 
@@ -55,5 +62,5 @@ var defaultsForCapability = {
   build: process.env.TRAVIS_BUILD_NUMBER,
   shardTestFiles: false,
   maxInstances: 5,
-  seleniumVersion: '2.47.1'
+  seleniumVersion: '2.48.2'
 };

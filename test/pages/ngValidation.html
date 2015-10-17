@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" ng-app="MyApp">
+<head>
+  <meta charset="utf-8">
+  <title>ng-pattern-restrict text test</title>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="../../src/ng-pattern-restrict.js"></script>
+  <script type="text/javascript">
+    var myApp = angular.module("MyApp", ["ngPatternRestrict"]);
+    myApp.controller("TestController", function() { });
+  </script>
+  <link rel="stylesheet" type="text/css" href="testStyles.css">
+</head>
+<body ng-controller="TestController">
+  <input type="text" id="browserInfo" />
+  <input type="text" id="title" />
+
+  <form name="testForm">
+    <label for="textbox">Text 1:</label>
+    <input type="text" id="textbox1" name="textbox1" ng-pattern="/^[abc]*$/" ng-pattern-restrict ng-model="modelValue" />
+
+    <p>textbox.valid: <span id="ngValid">{{testForm.textbox1.$valid}}</span></p>
+  </form>
+</body>
+</html>

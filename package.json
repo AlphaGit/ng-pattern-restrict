@@ -1,4 +1,6 @@
 {
+  "name": "ng-pattern-restrict",
+  "version": "0.2.1",
   "dependencies": {
   },
   "devDependencies": {
@@ -10,7 +12,6 @@
     "protractor": "~2.1.0",
     "grunt-protractor-webdriver": "~0.2.0"
   },
-  "name": "ng-pattern-restrict",
   "repository": {
     "type": "git",
     "url": "https://github.com/AlphaGit/ng-pattern-restrict.git"

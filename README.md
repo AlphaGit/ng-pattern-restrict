@@ -23,6 +23,8 @@ The logic is quite simple:
 
 ```console
 bower install ng-pattern-restrict
+# or
+npm install ng-pattern-restrict
 ```
 
 Alternatively, copy the [ng-pattern-restrict.js][srcfile] (or the minified version [ng-pattern-restrict.min.js][srcminfile]) into your project, load it into the browser and use it away.
@@ -65,6 +67,7 @@ Check out the [protractor configuration file][protractor conf] for the set of br
 
 ## Version list
 
+- [v0.2.1](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.1)
 - [v0.2.0](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.0)
 - [v0.1.1](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.1.1)
 - [v0.1.0-alpha.6](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/0.1.0-alpha.6)

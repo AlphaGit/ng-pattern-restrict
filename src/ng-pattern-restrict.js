@@ -125,11 +125,6 @@ angular.module('ngPatternRestrict', [])
           //-------------------------------------------------------------------
           // event handlers
           function revertToPreviousValue() {
-            if (ngModelController) {
-              scope.$apply(function () {
-                ngModelController.$setViewValue(oldValue);
-              });
-            }
             iElement.val(oldValue);
 
             if (!angular.isUndefined(caretPosition)) {
@@ -166,6 +161,14 @@ angular.module('ngPatternRestrict', [])
               DEBUG && showDebugInfo("New value did NOT pass validation against", regex, newValue, "Reverting back to:", oldValue);
               evt.preventDefault();
               revertToPreviousValue();
+            }
+
+            // make sure the model is consistent with last approach
+            // needed even when we don't change what has been input -- see https://github.com/AlphaGit/ng-pattern-restrict/pull/43
+            if (ngModelController) {
+              scope.$apply(function () {
+                ngModelController.$setViewValue(oldValue);
+              });
             }
           }
 

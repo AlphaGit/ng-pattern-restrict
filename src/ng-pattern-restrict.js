@@ -140,6 +140,12 @@ angular.module('ngPatternRestrict', [])
           function updateCurrentValue(newValue) {
             oldValue = newValue;
             caretPosition = getCaretPosition();
+            
+            if (ngModelController) {
+              scope.$apply(function () {
+                ngModelController.$setViewValue(oldValue);
+              });
+            }
           }
 
           function genericEventHandler(evt) {

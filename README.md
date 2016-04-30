@@ -65,6 +65,12 @@ That's it. Neat, huh?
 
 Check out the [protractor configuration file][protractor conf] for the set of browsers that you want to test on your system.
 
+# Demo
+
+What's a library without a demo?
+
+[Here's a Plunkr demo for you to check out.][plunkr demo]
+
 ## Version list
 
 - [v0.2.1](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.1)
@@ -79,7 +85,8 @@ Check out the [protractor configuration file][protractor conf] for the set of br
 
 [travisci]: https://travis-ci.org/AlphaGit/ng-pattern-restrict
 [ticket15]: https://github.com/AlphaGit/ng-pattern-restrict/issues/15
-[compatibility]: https://github.com/AlphaGit/ng-pattern-restrict/docs/compatibility.md
-[protractor conf]: https://github.com/AlphaGit/ng-pattern-restrict/protractor-conf.js
-[srcfile]: https://github.com/AlphaGit/ng-pattern-restrict/src/ng-pattern-restrict.js
-[srcminfile]: https://github.com/AlphaGit/ng-pattern-restrict/src/ng-pattern-restrict.min.js
+[compatibility]: docs/compatibility.md
+[protractor conf]: protractor-conf.js
+[srcfile]: src/ng-pattern-restrict.js
+[srcminfile]: src/ng-pattern-restrict.min.js
+[plunkr demo]: https://plnkr.co/edit/QHgV7m9jlSLPImxcFif2?p=preview

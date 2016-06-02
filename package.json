@@ -1,6 +1,7 @@
 {
   "name": "ng-pattern-restrict",
   "version": "0.2.1",
+  "main": "src/ng-pattern-restrict.min.js",
   "dependencies": {
   },
   "devDependencies": {

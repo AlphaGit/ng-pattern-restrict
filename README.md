@@ -1,6 +1,6 @@
-# ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.svg?branch=master)][travisci]
+# ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.svg?branch=master)][travisci] [![Build Status](https://saucelabs.com/open_sauce/build_status/AlphaSau.svg)][AlphaSau]
 
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/AlphaSau.svg)](https://saucelabs.com/u/AlphaSau)
+[![Build Status](https://saucelabs.com/open_sauce/build_matrix/AlphaSau.svg)][AlphaSau]
 
 Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.
 
@@ -91,3 +91,4 @@ What's a library without a demo?
 [srcfile]: src/ng-pattern-restrict.js
 [srcminfile]: src/ng-pattern-restrict.min.js
 [plunkr demo]: https://plnkr.co/edit/QHgV7m9jlSLPImxcFif2?p=preview
+[AlphaSau]: https://saucelabs.com/u/AlphaSau

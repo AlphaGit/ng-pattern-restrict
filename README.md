@@ -1,8 +1,8 @@
 # ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.svg?branch=master)][travisci] [![Build Status](https://saucelabs.com/open_sauce/build_status/AlphaSau.svg)][AlphaSau]
 
-[![Build Status](https://saucelabs.com/open_sauce/build_matrix/AlphaSau.svg)][AlphaSau]
-
 Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.
+
+[![Build Status](https://saucelabs.com/open_sauce/build_matrix/AlphaSau.svg)][AlphaSau]
 
 # What is this for?
 

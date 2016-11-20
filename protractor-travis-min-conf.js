@@ -13,7 +13,7 @@ config.multiCapabilities = [
 
     // Specifying 2.44.0 selenium version because safari won't work otherwise
     // See: https://github.com/angular/protractor/issues/2111
-    configBuilder.getCapability({ testExtraDescriptor: '(minified source)', browserName: 'safari', platform: 'OS X 10.11', seleniumVersion: '2.44.0' }),
+    configBuilder.getCapability({ testExtraDescriptor: '(minified source)', browserName: 'safari', version: '6.0', platform: 'OS X 10.8', seleniumVersion: '2.44.0' }),
 
     // Protractor does not support Microsoft Edge yet.
     // See: https://github.com/angular/protractor/issues/2377

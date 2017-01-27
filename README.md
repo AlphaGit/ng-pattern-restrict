@@ -73,6 +73,7 @@ What's a library without a demo?
 
 ## Version list
 
+- [v0.2.3](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.3)
 - [v0.2.2](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.2)
 - [v0.2.1](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.1)
 - [v0.2.0](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/v0.2.0)

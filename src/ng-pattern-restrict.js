@@ -24,7 +24,8 @@ angular.module('ngPatternRestrict', [])
         DEBUG && showDebugInfo("Loaded");
 
         return function ngPatternRestrictLinking(scope, iElement, iAttrs, ngModelController) {
-          var regex, // validation regex object
+          var regex = /.*/, // validation regex object
+            catchAllregex = true, // whether the previous regex is an allow-all regex
             oldValue, // keeping track of the previous value of the element
             caretPosition, // keeping track of where the caret is at to avoid jumpiness
             // housekeeping
@@ -140,6 +141,11 @@ angular.module('ngPatternRestrict', [])
           function genericEventHandler(evt) {
             DEBUG && showDebugInfo("Reacting to event:", evt.type);
 
+            if (catchAllregex) {
+              DEBUG && showDebugInfo("Currently using a catch-all regex. No checks to do.");
+              return;
+            }
+
             //HACK Chrome returns an empty string as value if user inputs a non-numeric string into a number type input
             // and this may happen with other non-text inputs soon enough. As such, if getting the string only gives us an
             // empty string, we don't have the chance of validating it against a regex. All we can do is assume it's wrong,
@@ -169,16 +175,6 @@ angular.module('ngPatternRestrict', [])
               scope.$apply(function () {
                 ngModelController.$setViewValue(oldValue);
               });
-            }
-          }
-
-          //-------------------------------------------------------------------
-          // setup based on attributes
-          function tryParseRegex(regexString) {
-            try {
-              regex = new RegExp(regexString);
-            } catch (e) {
-              throw "Invalid RegEx string parsed for ngPatternRestrict: " + regexString;
             }
           }
 
@@ -218,7 +214,15 @@ angular.module('ngPatternRestrict', [])
           function readPattern() {
             var entryRegex = !!iAttrs.ngPatternRestrict ? iAttrs.ngPatternRestrict : iAttrs.pattern;
             DEBUG && showDebugInfo("RegEx to use:", entryRegex);
-            tryParseRegex(entryRegex);
+
+            catchAllregex = /\^?\.\*\$?/.test(entryRegex);
+            DEBUG && showDebugInfo("RegEx '" + entryRegex + "'" + (catchAllregex ? "is" : "is not") + " a catch all regex");
+
+            try {
+              regex = new RegExp(entryRegex);
+            } catch (e) {
+              throw "Invalid RegEx string parsed for ngPatternRestrict: " + entryRegex;
+            }
           }
 
           function notThrows(testFn, shouldReturnTruthy) {

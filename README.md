@@ -27,7 +27,15 @@ bower install ng-pattern-restrict
 npm install ng-pattern-restrict
 ```
 
-Alternatively, copy the [ng-pattern-restrict.js][srcfile] (or the minified version [ng-pattern-restrict.min.js][srcminfile]) into your project, load it into the browser and use it away.
+Alternatively, copy the [ng-pattern-restrict.js][srcfile] (or the minified version [ng-pattern-restrict.min.js][srcminfile]) into your project and reference it in your index.html.
+
+Finally, add a module reference (typically in app.js) to ngPatternRestrict.  e.g.:
+
+```javascript
+angular.module('yourApp', [
+  // ... other modules ...,
+  'ngPatternRestrict']);
+```
 
 # Usage
 

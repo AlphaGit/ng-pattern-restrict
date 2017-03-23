@@ -49,6 +49,16 @@ Should be the same as
 <input type="text" ng-pattern-restrict="[0-9]+" pattern="[0-9]+" />
 ```
 
+Or with a scope value
+
+```javascript
+$scope.numbers = "[0-9]+";
+```
+
+```html
+<input type="text" ng-pattern-restrict="{{ numbers }}" />
+```
+
 ## Notes:
 
 - ([#15][ticket15]) **Make sure to use "progressive" regular expressions.** The expressions are validated against the full regular expression. This means that if your regex is `\d\d`, and your textbox is empty, a user will never be able to type anything because the first keypress will not validate and will be reverted. Following the example, the proper regular expression should be `\d{0,2}`.

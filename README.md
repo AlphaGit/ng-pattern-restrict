@@ -1,3 +1,7 @@
+### NOTE: This project is no longer under maintenance.
+
+However, we will gladly accept new PRs or questions.
+
 # ng-pattern-restrict [![Build Status](https://travis-ci.org/AlphaGit/ng-pattern-restrict.svg?branch=master)][travisci] [![Build Status](https://saucelabs.com/open_sauce/build_status/AlphaSau.svg)][AlphaSau]
 
 Allowing certain inputs based on a regex pattern, preventing the user from inputting anything invalid.
@@ -102,6 +106,10 @@ What's a library without a demo?
 - [v0.1.0-alpha.3](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/0.1.0-alpha.3)
 - [v0.1.0-alpha.2](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/0.1.0-alpha.2)
 - [v0.1.0-alpha.1](https://github.com/AlphaGit/ng-pattern-restrict/releases/tag/0.1.0-alpha.1)
+
+## Angular 2+
+
+For a version compatible with Angular 2+ versions, please check the sister project [a-pattern-restrict](https://github.com/AlphaGit/a-pattern-restrict).
 
 [travisci]: https://travis-ci.org/AlphaGit/ng-pattern-restrict
 [ticket15]: https://github.com/AlphaGit/ng-pattern-restrict/issues/15

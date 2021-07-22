@@ -128,7 +128,7 @@ angular.module('ngPatternRestrict', [])
           function revertToPreviousValue() {
             iElement.val(oldValue);
 
-            if (!angular.isUndefined(caretPosition)) {
+            if (caretPosition !== undefined && caretPosition !== null) {
               setCaretPosition(caretPosition);
             }
           }
